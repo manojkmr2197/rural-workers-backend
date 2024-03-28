@@ -141,6 +141,65 @@ LOCK TABLES `proof_type` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `user_data`
+--
+
+DROP TABLE IF EXISTS `user_data`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_data` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `user_phone_no` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `user_address` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_date` timestamp NULL DEFAULT NULL,
+  `modified_date` timestamp NULL DEFAULT NULL,
+  `login_date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_data`
+--
+
+LOCK TABLES `user_data` WRITE;
+/*!40000 ALTER TABLE `user_data` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_data` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_statistics`
+--
+
+DROP TABLE IF EXISTS `user_statistics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_statistics` (
+  `statistics_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `worker_id` int DEFAULT NULL,
+  `call_count` bigint DEFAULT NULL,
+  `whatsapp_count` bigint DEFAULT NULL,
+  `last_modified_date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`statistics_id`),
+  KEY `user_statistics_user_data_FK` (`user_id`),
+  KEY `user_statistics_workers_data_FK` (`worker_id`),
+  CONSTRAINT `user_statistics_user_data_FK` FOREIGN KEY (`user_id`) REFERENCES `user_data` (`user_id`),
+  CONSTRAINT `user_statistics_workers_data_FK` FOREIGN KEY (`worker_id`) REFERENCES `workers_data` (`worker_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_statistics`
+--
+
+LOCK TABLES `user_statistics` WRITE;
+/*!40000 ALTER TABLE `user_statistics` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_statistics` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `worker_comments`
 --
 
@@ -244,4 +303,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-27 20:54:34
+-- Dump completed on 2024-03-28  9:53:52
