@@ -1,0 +1,37 @@
+package com.app.ruralworkers.service;
+
+import com.app.ruralworkers.dao.CityDao;
+import com.app.ruralworkers.dto.CityDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service("CityService")
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+public class CityServiceImpl implements CityService{
+
+    @Autowired
+    private CityDao cityDao;
+    @Override
+    public List<CityDTO> getAllCities() {
+        return cityDao.getAllCities();
+    }
+
+//    public List<String> getAllCities() {
+//        String sql = "SELECT city_name FROM city";
+//        return jdbcTemplate.queryForList(sql, String.class);
+//    }
+//
+//    public void addCity(String cityName) {
+//        String sql = "INSERT INTO city (city_name) VALUES (?)";
+//        jdbcTemplate.update(sql, cityName);
+//    }
+//
+//    public void removeCity(String cityName) {
+//        String sql = "DELETE FROM city WHERE city_name = ?";
+//        jdbcTemplate.update(sql, cityName);
+//    }
+}

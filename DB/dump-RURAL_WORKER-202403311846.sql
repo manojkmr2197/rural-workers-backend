@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: rural_workers
+-- Host: localhost    Database: RURAL_WORKER
 -- ------------------------------------------------------
 -- Server version	8.0.36
 
@@ -23,12 +23,13 @@ DROP TABLE IF EXISTS `area`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `area` (
-  `area_id` int NOT NULL AUTO_INCREMENT,
-  `area_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `city_id` int NOT NULL,
-  PRIMARY KEY (`area_id`),
-  KEY `area_fk` (`city_id`),
-  CONSTRAINT `area_fk` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`)
+  `AREA_ID` int NOT NULL AUTO_INCREMENT,
+  `AREA_NAME_ENGLISH` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `AREA_NAME_TAMIL` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CITY_ID` int NOT NULL,
+  PRIMARY KEY (`AREA_ID`),
+  KEY `AREA_fk` (`CITY_ID`),
+  CONSTRAINT `AREA_fk` FOREIGN KEY (`CITY_ID`) REFERENCES `city` (`CITY_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -49,10 +50,11 @@ DROP TABLE IF EXISTS `city`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `city` (
-  `city_id` int NOT NULL AUTO_INCREMENT,
-  `city_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `CITY_ID` int NOT NULL AUTO_INCREMENT,
+  `CITY_NAME_ENGLISH` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CITY_NAME_TAMIL` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`CITY_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,7 +63,7 @@ CREATE TABLE `city` (
 
 LOCK TABLES `city` WRITE;
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
-INSERT INTO `city` VALUES (1,'திருச்சி');
+INSERT INTO `city` VALUES (2,'Madurai','மதுரை');
 /*!40000 ALTER TABLE `city` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,9 +75,10 @@ DROP TABLE IF EXISTS `job`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `job` (
-  `job_id` int NOT NULL AUTO_INCREMENT,
-  `job_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`job_id`)
+  `JOB_ID` int NOT NULL AUTO_INCREMENT,
+  `JOB_NAME_ENGLISH` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `JOB_NAME_TAMIL` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`JOB_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,17 +99,17 @@ DROP TABLE IF EXISTS `job_area_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `job_area_mapping` (
-  `job_area_id` int NOT NULL AUTO_INCREMENT,
-  `job_id` int NOT NULL,
-  `area_id` int NOT NULL,
-  `city_id` int NOT NULL,
-  PRIMARY KEY (`job_area_id`),
-  KEY `job_area_mapping_city_FK` (`city_id`),
-  KEY `job_area_mapping_area_FK` (`area_id`),
-  KEY `job_area_mapping_job_FK` (`job_id`),
-  CONSTRAINT `job_area_mapping_area_FK` FOREIGN KEY (`area_id`) REFERENCES `area` (`area_id`),
-  CONSTRAINT `job_area_mapping_city_FK` FOREIGN KEY (`city_id`) REFERENCES `city` (`city_id`),
-  CONSTRAINT `job_area_mapping_job_FK` FOREIGN KEY (`job_id`) REFERENCES `job` (`job_id`)
+  `JOB_AREA_ID` int NOT NULL AUTO_INCREMENT,
+  `JOB_ID` int NOT NULL,
+  `AREA_ID` int NOT NULL,
+  `CITY_ID` int NOT NULL,
+  PRIMARY KEY (`JOB_AREA_ID`),
+  KEY `job_AREA_mapping_city_FK` (`CITY_ID`),
+  KEY `job_AREA_mapping_AREA_FK` (`AREA_ID`),
+  KEY `job_AREA_mapping_job_FK` (`JOB_ID`),
+  CONSTRAINT `job_AREA_mapping_AREA_FK` FOREIGN KEY (`AREA_ID`) REFERENCES `area` (`AREA_ID`),
+  CONSTRAINT `job_AREA_mapping_city_FK` FOREIGN KEY (`CITY_ID`) REFERENCES `city` (`CITY_ID`),
+  CONSTRAINT `job_AREA_mapping_job_FK` FOREIGN KEY (`JOB_ID`) REFERENCES `job` (`JOB_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -127,7 +130,7 @@ DROP TABLE IF EXISTS `proof_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `proof_type` (
-  `proof_type_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `PROOF_TYPE_NAME` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -148,14 +151,14 @@ DROP TABLE IF EXISTS `user_data`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_data` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `user_phone_no` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `user_address` varchar(200) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `created_date` timestamp NULL DEFAULT NULL,
-  `modified_date` timestamp NULL DEFAULT NULL,
-  `login_date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  `USER_ID` int NOT NULL AUTO_INCREMENT,
+  `USER_NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `USER_PHONE_NO` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `USER_ADDRESS` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `CREATED_DATE` timestamp NULL DEFAULT NULL,
+  `MODIFIED_DATE` timestamp NULL DEFAULT NULL,
+  `LOGIN_DATE` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`USER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -176,17 +179,17 @@ DROP TABLE IF EXISTS `user_statistics`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_statistics` (
-  `statistics_id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int DEFAULT NULL,
-  `worker_id` int DEFAULT NULL,
-  `call_count` bigint DEFAULT NULL,
-  `whatsapp_count` bigint DEFAULT NULL,
-  `last_modified_date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`statistics_id`),
-  KEY `user_statistics_user_data_FK` (`user_id`),
-  KEY `user_statistics_workers_data_FK` (`worker_id`),
-  CONSTRAINT `user_statistics_user_data_FK` FOREIGN KEY (`user_id`) REFERENCES `user_data` (`user_id`),
-  CONSTRAINT `user_statistics_workers_data_FK` FOREIGN KEY (`worker_id`) REFERENCES `workers_data` (`worker_id`)
+  `STATISTICS_ID` int NOT NULL AUTO_INCREMENT,
+  `USER_ID` int DEFAULT NULL,
+  `WORKER_ID` int DEFAULT NULL,
+  `CALL_COUNT` bigint DEFAULT NULL,
+  `WHATSAPP_COUNT` bigint DEFAULT NULL,
+  `LAST_MODIFIED_DATE` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`STATISTICS_ID`),
+  KEY `user_statistics_user_data_FK` (`USER_ID`),
+  KEY `user_statistics_WORKER_DATA_FK` (`WORKER_ID`),
+  CONSTRAINT `user_statistics_user_data_FK` FOREIGN KEY (`USER_ID`) REFERENCES `user_data` (`USER_ID`),
+  CONSTRAINT `user_statistics_WORKER_DATA_FK` FOREIGN KEY (`WORKER_ID`) REFERENCES `worker_data` (`WORKER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -207,13 +210,13 @@ DROP TABLE IF EXISTS `worker_comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `worker_comments` (
-  `comment_id` int NOT NULL AUTO_INCREMENT,
-  `comments` varchar(1000) COLLATE utf8mb4_general_ci NOT NULL,
-  `worker_id` int NOT NULL,
-  `comments_is_verified` varchar(1) COLLATE utf8mb4_general_ci DEFAULT 'Y',
-  PRIMARY KEY (`comment_id`),
-  KEY `worker_comments_workers_data_FK` (`worker_id`),
-  CONSTRAINT `worker_comments_workers_data_FK` FOREIGN KEY (`worker_id`) REFERENCES `workers_data` (`worker_id`)
+  `COMMENT_ID` int NOT NULL AUTO_INCREMENT,
+  `COMMENTS_TEXT` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `WORKER_ID` int NOT NULL,
+  `IS_COMMENT_VERIFIED` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Y',
+  PRIMARY KEY (`COMMENT_ID`),
+  KEY `WORKER_COMMENTS_WORKER_DATA_FK` (`WORKER_ID`),
+  CONSTRAINT `WORKER_COMMENTS_WORKER_DATA_FK` FOREIGN KEY (`WORKER_ID`) REFERENCES `worker_data` (`WORKER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -227,6 +230,42 @@ LOCK TABLES `worker_comments` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `worker_data`
+--
+
+DROP TABLE IF EXISTS `worker_data`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `worker_data` (
+  `WORKER_ID` int NOT NULL AUTO_INCREMENT,
+  `WORKER_NAME` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `WORKER_ADDRESS_1` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `WORKER_ADDRESS_2` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `WORKER_PHONE_NO` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `WORKER_WHATSAPP_NO` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `WORKER_MAIL_ID` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `WORKER_ID_PROOF_TYPE` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `WORKER_ID_PROOF` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `IS_WORKER_VERIFIED` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'N',
+  `WORKER_CREATED_DATE` timestamp NULL DEFAULT NULL,
+  `WORKER_CREATED_BY` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `WORKER_MODIFIED_DATE` timestamp NULL DEFAULT NULL,
+  `WORKER_MODIFIED_BY` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `WORKER_RATING` float DEFAULT NULL,
+  PRIMARY KEY (`WORKER_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `worker_data`
+--
+
+LOCK TABLES `worker_data` WRITE;
+/*!40000 ALTER TABLE `worker_data` DISABLE KEYS */;
+/*!40000 ALTER TABLE `worker_data` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `worker_job_mapping`
 --
 
@@ -234,14 +273,14 @@ DROP TABLE IF EXISTS `worker_job_mapping`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `worker_job_mapping` (
-  `worker_job_id` int NOT NULL AUTO_INCREMENT,
-  `worker_id` int NOT NULL,
-  `job_area_mapping_id` int NOT NULL,
-  PRIMARY KEY (`worker_job_id`),
-  KEY `worker_job_mapping_worker_FK` (`worker_id`),
-  KEY `worker_job_mapping_job_area_FK` (`job_area_mapping_id`),
-  CONSTRAINT `worker_job_mapping_job_area_FK` FOREIGN KEY (`job_area_mapping_id`) REFERENCES `job_area_mapping` (`job_area_id`),
-  CONSTRAINT `worker_job_mapping_worker_FK` FOREIGN KEY (`worker_id`) REFERENCES `workers_data` (`worker_id`)
+  `WORKER_JOB_ID` int NOT NULL AUTO_INCREMENT,
+  `WORKER_ID` int NOT NULL,
+  `JOB_AREA_MAPPING_ID` int NOT NULL,
+  PRIMARY KEY (`WORKER_JOB_ID`),
+  KEY `WORKER_JOB_MAPPING_worker_FK` (`WORKER_ID`),
+  KEY `WORKER_JOB_MAPPING_job_AREA_FK` (`JOB_AREA_MAPPING_ID`),
+  CONSTRAINT `WORKER_JOB_MAPPING_job_AREA_FK` FOREIGN KEY (`JOB_AREA_MAPPING_ID`) REFERENCES `job_area_mapping` (`JOB_AREA_ID`),
+  CONSTRAINT `WORKER_JOB_MAPPING_worker_FK` FOREIGN KEY (`WORKER_ID`) REFERENCES `worker_data` (`WORKER_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -255,43 +294,7 @@ LOCK TABLES `worker_job_mapping` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `workers_data`
---
-
-DROP TABLE IF EXISTS `workers_data`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `workers_data` (
-  `worker_id` int NOT NULL AUTO_INCREMENT,
-  `worker_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `worker_address_1` varchar(500) COLLATE utf8mb4_general_ci NOT NULL,
-  `worker_address_2` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `worker_phone_no` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `worker_whatsapp_no` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `worker_mail_id` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `worker_id_proof_type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `worker_id_proof` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `worker_is_verified` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'N',
-  `worker_created_date` timestamp NULL DEFAULT NULL,
-  `worker_created_by` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `worker_modified_date` timestamp NULL DEFAULT NULL,
-  `worker_modified_by` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `worker_rating` float DEFAULT NULL,
-  PRIMARY KEY (`worker_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `workers_data`
---
-
-LOCK TABLES `workers_data` WRITE;
-/*!40000 ALTER TABLE `workers_data` DISABLE KEYS */;
-/*!40000 ALTER TABLE `workers_data` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping routines for database 'rural_workers'
+-- Dumping routines for database 'RURAL_WORKER'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -303,4 +306,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-28  9:53:52
+-- Dump completed on 2024-03-31 18:46:42
