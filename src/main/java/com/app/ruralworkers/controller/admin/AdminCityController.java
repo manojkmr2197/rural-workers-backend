@@ -1,10 +1,13 @@
 package com.app.ruralworkers.controller.admin;
-import com.app.ruralworkers.dto.CityDTO;
+
+import com.app.ruralworkers.entity.City;
 import com.app.ruralworkers.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,9 +20,7 @@ public class AdminCityController {
 
     @GetMapping(value = "/list")
     private ResponseEntity<?> getAllList() {
-
-        List<CityDTO> cityList = cityService.getAllCities();
-
+        List<City> cityList = cityService.getAllCities();
         return new ResponseEntity<Object>(cityList, HttpStatus.OK);
 
     }

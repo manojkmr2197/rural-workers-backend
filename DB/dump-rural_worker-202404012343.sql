@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
 --
--- Host: localhost    Database: RURAL_WORKER
+-- Host: localhost    Database: rural_worker
 -- ------------------------------------------------------
 -- Server version	8.0.36
 
@@ -53,8 +53,9 @@ CREATE TABLE `city` (
   `CITY_ID` int NOT NULL AUTO_INCREMENT,
   `CITY_NAME_ENGLISH` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `CITY_NAME_TAMIL` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `CITY_IS_ENABLED` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`CITY_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +64,7 @@ CREATE TABLE `city` (
 
 LOCK TABLES `city` WRITE;
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
-INSERT INTO `city` VALUES (2,'Madurai','மதுரை');
+INSERT INTO `city` VALUES (2,'Madurai','மதுரை',NULL),(3,'Trichy-1','திருச்சி','Y'),(4,'Madurai-1','மதுரை','Y');
 /*!40000 ALTER TABLE `city` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +295,7 @@ LOCK TABLES `worker_job_mapping` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'RURAL_WORKER'
+-- Dumping routines for database 'rural_worker'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -306,4 +307,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-31 18:46:42
+-- Dump completed on 2024-04-01 23:43:27

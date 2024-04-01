@@ -1,9 +1,9 @@
 package com.app.ruralworkers.service;
 
-import com.app.ruralworkers.dto.CityDTO;
+import com.app.ruralworkers.entity.City;
 
 import java.util.List;
 
 public interface CityService {
-    List<CityDTO> getAllCities();
+    List<City> getAllCities();
 }

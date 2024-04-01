@@ -1,7 +1,7 @@
 package com.app.ruralworkers.service;
 
-import com.app.ruralworkers.dao.CityDao;
-import com.app.ruralworkers.dto.CityDTO;
+import com.app.ruralworkers.entity.City;
+import com.app.ruralworkers.repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,10 +14,10 @@ import java.util.List;
 public class CityServiceImpl implements CityService{
 
     @Autowired
-    private CityDao cityDao;
+    private CityRepository cityRepository;
     @Override
-    public List<CityDTO> getAllCities() {
-        return cityDao.getAllCities();
+    public List<City> getAllCities() {
+        return cityRepository.findAll();
     }
 
 //    public List<String> getAllCities() {
