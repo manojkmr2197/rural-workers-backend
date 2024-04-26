@@ -1,4 +1,4 @@
 package com.app.ruralworkers.service;
 
-public class JobServiceImpl {
+public class JobServiceImpl implements JobService{
 }
