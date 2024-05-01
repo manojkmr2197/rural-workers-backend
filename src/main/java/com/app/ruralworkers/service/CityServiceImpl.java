@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service("CityService")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+//@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class CityServiceImpl implements CityService{
 
     @Autowired
@@ -18,6 +18,11 @@ public class CityServiceImpl implements CityService{
     @Override
     public List<City> getAllCities() {
         return cityRepository.findAll();
+    }
+
+    @Override
+    public City addCity(City city) {
+        return cityRepository.save(city);
     }
 
 //    public List<String> getAllCities() {

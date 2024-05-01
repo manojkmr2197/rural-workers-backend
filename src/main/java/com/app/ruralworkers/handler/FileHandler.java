@@ -1,6 +1,9 @@
 package com.app.ruralworkers.handler;
 
 import com.app.ruralworkers.constants.FileConstants;
+import com.app.ruralworkers.util.LoggingUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
@@ -19,6 +22,9 @@ import java.time.OffsetDateTime;
 @RequestMapping("/api/v1/file")
 public class FileHandler {
 
+    private static final Logger LOGGER =
+            LoggerFactory.getLogger(FileHandler.class);
+
     @GetMapping(value = "/user/image/{fileName:.+}", produces = MediaType.IMAGE_JPEG_VALUE)
     public Resource getUserImage(@PathVariable String fileName) {
 
@@ -34,8 +40,6 @@ public class FileHandler {
             throw new RuntimeException("Failed to load the image: " + fileName, e);
         }
     }
-
-
 
     @PostMapping("/user/image/upload")
     public ResponseEntity uploadUserImage(@RequestParam("file") MultipartFile file,@RequestParam("userId") Integer userId, RedirectAttributes redirectAttributes) {
@@ -56,6 +60,96 @@ public class FileHandler {
             byte[] bytes = file.getBytes();
             Files.createDirectories(Paths.get(FileConstants.FILE_BASE_PATH+FileConstants.USER_PROFILE_PATH));
             Path path = Paths.get(FileConstants.FILE_BASE_PATH+FileConstants.USER_PROFILE_PATH + filename);
+            Files.write(path, bytes);
+            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + filename + "'");
+            return ResponseEntity.ok("You successfully uploaded '" + filename + "'");
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("message", "Could not upload the file: " + filename + "!");
+            return ResponseEntity.ok("Your uploading failed '" + filename + "' "+e.getMessage());
+        }
+    }
+
+
+    @GetMapping(value = "/user/proof/image/{fileName:.+}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource getUserProofImage(@PathVariable String fileName) {
+
+        Path imagePath = Paths.get(FileConstants.FILE_BASE_PATH+FileConstants.USER_PROOF_PATH + fileName);
+        try {
+            Resource resource = new UrlResource(imagePath.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Failed to load the image: " + fileName);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load the image: " + fileName, e);
+        }
+    }
+
+    @PostMapping("/user/proof/image/upload")
+    public ResponseEntity uploadUserProofImage(@RequestParam("file") MultipartFile file,@RequestParam("userId") Integer userId, RedirectAttributes redirectAttributes) {
+        // Check if the file is empty
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return ResponseEntity.badRequest().body("Please select a file to upload");
+        }
+        // Check if the file has a JPG/JPEG extension
+        String filename = file.getOriginalFilename();
+        if (filename != null && !filename.toLowerCase().endsWith(".jpg") && !filename.toLowerCase().endsWith(".jpeg")) {
+            redirectAttributes.addFlashAttribute("message", "Please upload a JPG or JPEG file");
+            return ResponseEntity.badRequest().body("Please upload a JPG or JPEG file");
+        }
+        try {
+            filename = OffsetDateTime.now().toEpochSecond()+"-"+filename;
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            Files.createDirectories(Paths.get(FileConstants.FILE_BASE_PATH+FileConstants.USER_PROOF_PATH));
+            Path path = Paths.get(FileConstants.FILE_BASE_PATH+FileConstants.USER_PROOF_PATH + filename);
+            Files.write(path, bytes);
+            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + filename + "'");
+            return ResponseEntity.ok("You successfully uploaded '" + filename + "'");
+        } catch (IOException e) {
+            redirectAttributes.addFlashAttribute("message", "Could not upload the file: " + filename + "!");
+            return ResponseEntity.ok("Your uploading failed '" + filename + "' "+e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/job/image/{fileName:.+}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public Resource getJobImage(@PathVariable String fileName) {
+
+        Path imagePath = Paths.get(FileConstants.FILE_BASE_PATH+FileConstants.JOB_PATH + fileName);
+        try {
+            Resource resource = new UrlResource(imagePath.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Failed to load the image: " + fileName);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load the image: " + fileName, e);
+        }
+    }
+
+    @PostMapping("/job/image/upload")
+    public ResponseEntity uploadJobImage(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        LOGGER.info("Message : {} ",file.getOriginalFilename());
+        // Check if the file is empty
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return ResponseEntity.badRequest().body("Please select a file to upload");
+        }
+        // Check if the file has a JPG/JPEG extension
+        String filename = file.getOriginalFilename();
+        if (filename != null && !filename.toLowerCase().endsWith(".jpg") && !filename.toLowerCase().endsWith(".jpeg")) {
+            redirectAttributes.addFlashAttribute("message", "Please upload a JPG or JPEG file");
+            return ResponseEntity.badRequest().body("Please upload a JPG or JPEG file");
+        }
+        try {
+            filename = OffsetDateTime.now().toEpochSecond()+"-"+filename;
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            Files.createDirectories(Paths.get(FileConstants.FILE_BASE_PATH+FileConstants.JOB_PATH));
+            Path path = Paths.get(FileConstants.FILE_BASE_PATH+FileConstants.JOB_PATH + filename);
             Files.write(path, bytes);
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + filename + "'");
             return ResponseEntity.ok("You successfully uploaded '" + filename + "'");

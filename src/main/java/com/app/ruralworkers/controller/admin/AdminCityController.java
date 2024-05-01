@@ -7,10 +7,9 @@ import com.app.ruralworkers.util.LoggingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,20 +23,36 @@ public class AdminCityController {
     private ResponseEntity<?> getAllList() {
         LoggingModel logging =new LoggingModel();
         logging.setOperation("ADMIN-CITY-ALL");
-
-        List<City> cityList = cityService.getAllCities();
-
-        logging.setResponse(cityList);
-        LoggingUtils.writeLogFile(logging);
-        return new ResponseEntity<Object>(cityList, HttpStatus.OK);
-
+        try {
+            List<City> cityList = cityService.getAllCities();
+            logging.setResponse(cityList);
+            return new ResponseEntity<Object>(cityList, HttpStatus.OK);
+        }catch (Exception e){
+            logging.setErrCode("500");
+            logging.setErrMessage(e.getMessage());
+            return new ResponseEntity<Object>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }finally {
+            LoggingUtils.writeLogFile(logging);
+        }
     }
 
-//    @PostMapping
-//    public void addCity(@RequestParam String cityName) {
-//        cityService.addCity(cityName);
-//    }
-//
+    @PostMapping(value = "/add")
+    public ResponseEntity<?> addCity(@RequestBody City city) {
+        LoggingModel logging =new LoggingModel();
+        logging.setOperation("ADMIN-CITY-ADD");
+        try {
+            City status = cityService.addCity(city);
+            logging.setResponse(status);
+            return new ResponseEntity<Object>(status, HttpStatus.OK);
+        }catch (Exception e){
+            logging.setErrCode("500");
+            logging.setErrMessage(e.getMessage());
+            return new ResponseEntity<Object>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }finally {
+            LoggingUtils.writeLogFile(logging);
+        }
+    }
+
 //    @DeleteMapping
 //    public void removeCity(@RequestParam String cityName) {
 //        cityService.removeCity(cityName);
